@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import cv2
+
 # Edit brightness
 def brightness(image, brightness_value):
 	# Convert BGR to HSV
@@ -8,14 +9,12 @@ def brightness(image, brightness_value):
 	height, width, channels = hsv.shape	
 	for x in range(height):
 		for y in range(width):
-			for c in range(channels):
-				if c == 2:
-					if hsv[x,y,c] + brightness_value > 255:
-						hsv[x,y,c] = 255
-					elif hsv[x,y,c] + brightness_value < 0:
-						hsv[x,y,c] = 0
-					else:
-						hsv[x,y,c] += brightness_value				
+			if hsv[x,y,2] + brightness_value > 255:
+				hsv[x,y,2] = 255
+			elif hsv[x,y,2] + brightness_value < 0:
+				hsv[x,y,2] = 0
+			else:
+				hsv[x,y,2] += brightness_value
 				# Write new pixel channel value
 	edit_img = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 	return edit_img
